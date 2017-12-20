@@ -49,8 +49,8 @@
   - name: save snap id
     copy:
       content: "{{ snapshot.id }}"
-      dest: /tmp/{{ vm }}
-    delegate_to: localhost 
+      dest: /var/lib/awx/{{ vm }}
+    delegate_to: localhost
 
   - name: Start vm
     ovirt_vms:
