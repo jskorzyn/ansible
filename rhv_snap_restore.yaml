@@ -33,12 +33,12 @@
     register: snapshot
 
   - name: Debug
-    debug: var=snapshot 
+    debug: var=snapshot
 
   - name: Restore from snap
     ovirt_snapshots:
       auth: "{{ ovirt_auth }}"
       vm_name: "{{ vm }}"
       state: restore
-      snapshot_id: "{{ snapshot.id }}"
+      snapshot_id: "{{ snapshot.ovirt_snapshots.id }}"
       wait: yes
