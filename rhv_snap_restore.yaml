@@ -34,6 +34,6 @@
   - name: Restore from snap
     ovirt_snapshots:
       auth: "{{ ovirt_auth }}"
-      name: "{{ vm }}"
+      vm_name: "{{ vm }}"
       state: restore
       wait: yes
