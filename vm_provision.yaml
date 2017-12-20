@@ -1,0 +1,39 @@
+---
+- name: VM Provisioning playbook
+  hosts: all
+  gather_facts: false
+  connection: local
+
+  vars:
+    rhv_username: admin@internal
+    rhv_password: password
+    rhv_url: https://rhvm.local.com/ovirt-engine/api
+    rhv_cpu: 2
+    rhv_memory: 4096
+
+  tasks:
+     - name: RHV Auth
+       ovirt_auth:
+         username: "{{ rhv_username }}" # The name of the user. For example: I(admin@internal).
+         url: "{{ rhv_url }}" # A string containing the base URL of the server. For example: I(https://server.example.com/ovirt-engine/api).
+         password: "{{ rhv_password }}" # The password of the user.
+         insecure: yes # A boolean flag that indicates if the server TLS certificate and host name should be checked.
+         state: present # Specifies if a token should be created or revoked.
+         timeout: 60 # The maximum total time to wait for the response, in seconds. A value of zero (the default) means wait forever. If the timeout expires before the response is received an exception will be raised.
+
+     - name: VM Create
+       ovirt_vms:
+        name: rhel7-test01
+        template: rhel7-init
+        cluster: Default
+        cpu_cores: "{{ rhv_cpu }}"
+        memory: "{{ rhv_memory }}"
+        high_availability: true
+        clone: yes
+        cloud_init:
+          nic_boot_protocol: static
+          nic_ip_address: 10.133.143.237
+          nic_netmask: 255.255.252.0
+          nic_gateway: 10.133.143.1
+          nic_name: eth0
+          nic_on_boot: true
