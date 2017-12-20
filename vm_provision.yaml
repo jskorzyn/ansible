@@ -24,7 +24,7 @@
      - name: VM Create
        ovirt_vms:
         name: rhel7-test01
-        template: rhel7-init
+        template: rhel7
         cluster: Default
         cpu_cores: "{{ rhv_cpu }}"
         memory: "{{ rhv_memory }}"
