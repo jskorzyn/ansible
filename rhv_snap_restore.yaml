@@ -40,5 +40,5 @@
       auth: "{{ ovirt_auth }}"
       vm_name: "{{ vm }}"
       state: restore
-      snapshot_id: "{{ snapshot.ovirt_snapshots.id }}"
+      snapshot_id: "{{ ovirt_snapshots.id }}"
       wait: yes
