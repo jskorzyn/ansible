@@ -2,6 +2,8 @@
 - name: Provision RHEL7.4 VM from ansible-test-host template
   hosts: all
   connection: local
+  gather_facts: no
+
   vars:
     username: admin@internal
     url: https://rhvm.local.com/ovirt-engine/api
@@ -39,6 +41,10 @@
       state: present
       description: Initial_snap
     register: snapshot
+
+  - name: snap ID debug
+    debug:
+      var: snapshot.id
 
   - name: save snap id
     copy: content="{{ snapshot.id }}" dest=/tmp/{{ vm }}
