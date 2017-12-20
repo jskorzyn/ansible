@@ -30,10 +30,15 @@
     ovirt_snapshots_facts:
       vm: "{{ vm }}"
       description: Initial*
+    register: snapshot
+
+  - name: Debug
+    debug: var=snapshot 
 
   - name: Restore from snap
     ovirt_snapshots:
       auth: "{{ ovirt_auth }}"
       vm_name: "{{ vm }}"
       state: restore
+      snapshot_id: "{{ snapshot.id }}"
       wait: yes
