@@ -1,6 +1,7 @@
 ---
 - name: Restore VM from snap
   hosts: all
+  connection: local
   vars:
     username: admin@internal
     url: https://rhvm.local.com/ovirt-engine/api
