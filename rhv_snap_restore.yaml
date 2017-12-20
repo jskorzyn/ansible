@@ -39,7 +39,7 @@
 
   - name: Debug
     debug:
-      var: id
+      var: snap
 
 #  - name: Restore from snap
 #    ovirt_snapshots:
