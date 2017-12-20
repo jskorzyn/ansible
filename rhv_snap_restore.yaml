@@ -34,7 +34,7 @@
 
   - name: Debug
     debug:
-      var: ovirt_snapshots
+      var: ovirt_snapshots.date
 
   - name: Debug
     debug:
