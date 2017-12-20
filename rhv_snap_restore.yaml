@@ -32,7 +32,7 @@
       description: Initial*
 
   - name: Debug
-    debug: var=ovirt_snapshots
+    debug: var=ovirt_snapshots.date
 
 #  - name: Restore from snap
 #    ovirt_snapshots:
