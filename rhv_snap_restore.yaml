@@ -37,7 +37,7 @@
 
   - name: Debug
     debug:
-      var: "{{ ovirt_snapshots['id'] }}"
+      var: id
 
 #  - name: Restore from snap
 #    ovirt_snapshots:
