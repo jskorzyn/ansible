@@ -1,0 +1,38 @@
+---
+- name: Restore VM from snap
+  hosts: rhv
+  vars:
+    username: admin@internal
+    url: https://rhvm.lab.com/ovirt-engine/api
+    password: Redhat01!
+    datacenter: MicroLAB
+    cluster: MicroCluster
+    template: ansible-test-host
+    vm: TEST-from-Ansible
+
+  tasks:
+  - name: Obtain SSO token
+    ovirt_auth:
+      url: "{{ url }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      insecure: yes
+
+  - name: Stop VM
+    ovirt_vms:
+      auth: "{{ ovirt_auth }}"
+      name: "{{ vm }}"
+      state: stopped
+      wait: yes
+
+  - name: Gather facts
+    ovirt_snapshots_facts:
+      vm: "{{ vm }}"
+      description: Initial*
+
+  - name: Restore from snap
+    ovirt_snapshots:
+      auth: "{{ ovirt_auth }}"
+      name: "{{ vm }}"
+      state: restore
+      wait: yes

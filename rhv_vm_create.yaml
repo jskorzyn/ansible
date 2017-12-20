@@ -1,0 +1,55 @@
+---
+- name: Provision RHEL7.4 VM from ansible-test-host template
+  hosts: rhv
+  vars:
+    username: admin@internal
+    url: https://rhvm.lab.com/ovirt-engine/api
+    password: Redhat01!
+    datacenter: MicroLAB
+    cluster: MicroCluster
+    template: ansible-test-host
+    vm: TEST-from-Ansible
+    snap_id: TEST-Snap-user01
+
+  tasks:
+  - name: Obtain SSO token
+    ovirt_auth:
+      url: "{{ url }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      insecure: yes
+
+  - name: Create and run VM from template
+    ovirt_vms:
+      auth: "{{ ovirt_auth }}"
+      name: "{{ vm }}"
+      template: "{{ template }}"
+      cluster: "{{ cluster }}"
+      memory: 1GiB
+      high_availability: true
+      state: stopped
+      wait: yes
+
+  - name: Create initial snap
+    ovirt_snapshots:
+      auth: "{{ ovirt_auth }}"
+      vm_name: "{{ vm }}"
+      wait: yes
+      state: present
+      description: Initial_snap
+    register: snapshot
+
+  - name: save snap id
+    copy: content="{{ snapshot.id }}" dest=/tmp/{{ vm }}
+
+  - name: Start vm
+    ovirt_vms:
+      auth: "{{ ovirt_auth }}"
+      name: "{{ vm }}"
+      state: running
+      wait: yes
+
+  - name: Revoke the SSO token
+    ovirt_auth:
+      state: absent
+      ovirt_auth: "{{ ovirt_auth }}"
