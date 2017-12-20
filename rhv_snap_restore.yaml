@@ -31,10 +31,11 @@
     ovirt_snapshots_facts:
       vm: "{{ vm }}"
       description: Initial*
+    register: snap
 
   - name: Debug
     debug:
-      var: ovirt_snapshots.date
+      var: snap.ansible_facts.date
 
   - name: Debug
     debug:
