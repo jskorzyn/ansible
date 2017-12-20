@@ -5,9 +5,9 @@
   connection: local
 
   vars:
-    rhv_username: admin@internal
-    rhv_password: password
-    rhv_url: https://rhvm.local.com/ovirt-engine/api
+    rhv_username: rhvadmin@ipa.lab.com
+    rhv_password: Redhat01!
+    rhv_url: https://rhvm.lab.com/ovirt-engine/api
     rhv_cpu: 2
     rhv_memory: 4096
 
