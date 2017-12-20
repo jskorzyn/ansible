@@ -33,11 +33,11 @@
 
   - name: Debug
     debug:
-      var: "{{ ovirt_snapshots }}"
+      var: ovirt_snapshots
 
   - name: Debug
     debug:
-      var: "{{ ovirt_snapshots.id }}"
+      var: ovirt_snapshots.id
 
 #  - name: Restore from snap
 #    ovirt_snapshots:
