@@ -32,7 +32,8 @@
       description: Initial*
 
   - name: Debug
-    debug: var=ovirt_snapshots.date
+    debug:
+      var: "{{ ovirt_snapshots.date }}"
 
 #  - name: Restore from snap
 #    ovirt_snapshots:
