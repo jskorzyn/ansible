@@ -1,14 +1,14 @@
 ---
 - name: Provision RHEL7.4 VM from ansible-test-host template
-  hosts: rhv
+  hosts: all
   vars:
     username: admin@internal
-    url: https://rhvm.lab.com/ovirt-engine/api
-    password: Redhat01!
-    datacenter: MicroLAB
-    cluster: MicroCluster
-    template: ansible-test-host
-    vm: TEST-from-Ansible
+    url: https://rhvm.local.com/ovirt-engine/api
+    password: password
+    datacenter: Local
+    cluster: Default
+    template: rhel7-template
+    vm: jsk-test01
     snap_id: TEST-Snap-user01
 
   tasks:
