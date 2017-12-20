@@ -35,7 +35,7 @@
 
   - name: Debug
     debug:
-      var: snap.ansible_facts.date
+      var: snap.ansible_facts.ovirt_snapshots.date
 
   - name: Debug
     debug:
