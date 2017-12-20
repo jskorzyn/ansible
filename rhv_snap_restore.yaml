@@ -31,15 +31,14 @@
     ovirt_snapshots_facts:
       vm: "{{ vm }}"
       description: Initial*
-    register: snap
 
   - name: Debug
     debug:
-      var: snap.ansible_facts.ovirt_snapshots.description
+      var: ovirt_snapshots
 
   - name: Debug
     debug:
-      var: snap
+      var: ovirt_snapshots.id
 
 #  - name: Restore from snap
 #    ovirt_snapshots:
