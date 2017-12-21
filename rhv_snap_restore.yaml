@@ -2,6 +2,8 @@
 - name: Restore VM from snap
   hosts: all
   connection: local
+  gather_facts: no
+
 
   vars:
     username: admin@internal
