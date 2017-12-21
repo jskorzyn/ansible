@@ -46,11 +46,16 @@
     debug:
       var: snapshot
 
-  - name: save snap id
-    copy:
-      content: "{{ snapshot.id }}"
-      dest: /var/lib/awx/{{ vm }}.txt
-    delegate_to: localhost
+  - name: set fact
+    set_fact:
+      snap_id: "{{ snapshot.id }}"
+      cacheable: true
+
+#  - name: save snap id
+#    copy:
+#      content: "{{ snapshot.id }}"
+#      dest: /var/lib/awx/{{ vm }}.txt
+#    delegate_to: localhost
 
   - name: Start vm
     ovirt_vms:
