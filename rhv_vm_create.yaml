@@ -1,5 +1,5 @@
 ---
-- name: Provision RHEL7.4 VM from ansible-test-host template
+- name: Provision VM from template
   hosts: all
   connection: local
   gather_facts: no
