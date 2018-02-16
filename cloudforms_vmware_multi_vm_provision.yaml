@@ -74,7 +74,9 @@
       retries: "{{max_retries}}"
       delay: "{{retry_interval}}"
 
-#    - debug: var=newvm
+    - name: NewVM Registered data
+      debug:
+        msg: "{{newvm}}"
 
     - name: Lookup instances href
       uri:
