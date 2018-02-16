@@ -76,11 +76,11 @@
 
     - name: NewVM Registered data
       debug:
-        msg: "{{newvm}}"
+        msg: "{{newvm.instance}}"
 
     - name: Lookup instances href
       uri:
-        url: "{{ manageiq.api_url }}/api/vms?filter[]=name={{ item.hw_name }}&expand=resources"
+        url: "{{ manageiq.api_url }}/api/vms?filter[]=name={{ item.instance.hw_name }}&expand=resources"
         method: GET
         body:
           action: refresh
@@ -91,7 +91,7 @@
           Content-Type: "application/json"
         status_code: 200
       register: output
-      with_items: "{{ newvm.instance }}"
+      with_items: "{{ newvm }}"
 
     - name: Set the Service URL
       set_fact:
