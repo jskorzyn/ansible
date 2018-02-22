@@ -17,11 +17,12 @@
         password: "{{ rhv_password }}"
         url: "{{ rhv_hostname }}"
         insecure: yes
-      
+
     - name: Create VM
       ovirt_vms:
         auth: "{{ ovirt_auth }}"
         name: "{{ vm_name }}"
+        cluster: MicroCluster
         operating_system: rhel_7x64
         template: "{{ rhv_template }}"
 #        datacenter: "{{ vcenter_datacenter }}"
