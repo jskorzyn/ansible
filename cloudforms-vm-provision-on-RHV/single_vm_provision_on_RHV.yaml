@@ -46,6 +46,12 @@
       debug:
         msg: "{{ newvm.vm.name }}"
 
+    - name: VM IP Address
+      set_fact:
+        newvm_ip: "{{ newvm.vm.display.address }}"
+
+    - debug: var=newvm_ip
+
 #    - name: Wait for SSH to come up
 #      wait_for:
 #        host: "{{ newvm.instance.ipv4 }}"
@@ -148,7 +154,7 @@
       when: output.json.results[0].success == false
 
 - name: Vm configuration
-  hosts: "{{ hostvars['localhost']['newvm.vm.display.address'] }}"
+  hosts: "{{ hostvars['localhost']['newvm_ip'] }}"
 
   tasks:
     - name: Install httpd
