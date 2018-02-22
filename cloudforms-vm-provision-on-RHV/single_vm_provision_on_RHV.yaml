@@ -11,13 +11,16 @@
     retry_interval: 20
 
   tasks:
+    - name: Obtain SSO token
+      ovirt_auth:
+        username: "{{ rhv_username }}"
+        password: "{{ rhv_password }}"
+        url: "{{ rhv_hostname }}"
+        insecure: yes
+      
     - name: Create VM
       ovirt_vms:
-        auth:
-          username: "{{ rhv_username }}"
-          password: "{{ rhv_password }}"
-          url: "{{ rhv_hostname }}"
-          insecure: yes
+        auth: "{{ ovirt_auth }}"
         name: "{{ vm_name }}"
         operating_system: rhel_7x64
         template: "{{ rhv_template }}"
