@@ -27,11 +27,12 @@
         template: "{{ rhv_template }}"
 #        datacenter: "{{ vcenter_datacenter }}"
 #        folder: "{{ vcenter_folder }}"
-        state: running
+        state: present
 #        wait: true
         type: server
 #        poll_interval: 20
       register: vm
+      until: vm.display.address is not defined
 
 #    - name: VM info
 #      debug:
@@ -41,15 +42,15 @@
       debug:
         msg: "{{ vm }}"
 
-    - name: VM Facts
-      ovirt_vms_facts:
-        auth: "{{ ovirt_auth }}"
-        pattern: name="{{ vm_name }}"
-      until: ovirt_vms.display.address is not defined
+#    - name: VM Facts
+#      ovirt_vms_facts:
+#        auth: "{{ ovirt_auth }}"
+#        pattern: name="{{ vm_name }}"
+#      until: ovirt_vms.display.address is not defined
 
-    - name: NICs Info
-      debug:
-        var: ovirt_nics
+#    - name: NICs Info
+#      debug:
+#        var: ovirt_nics
 
 #    - name: VM info
 #      debug:
