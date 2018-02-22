@@ -40,7 +40,7 @@
 
     - name: VM info 2
       debug:
-        msg: "{{ vm }}"
+        msg: "{{ vm.vm.status }}"
 
 #    - name: VM Facts
 #      ovirt_vms_facts:
