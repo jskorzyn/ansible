@@ -28,9 +28,9 @@
 #        datacenter: "{{ vcenter_datacenter }}"
 #        folder: "{{ vcenter_folder }}"
         state: running
-        wait: true
+#        wait: true
         type: server
-        poll_interval: 20
+#        poll_interval: 20
       register: vm
 
 #    - name: VM info
@@ -41,10 +41,11 @@
       debug:
         msg: "{{ vm }}"
 
-    - name: NICs data
-      ovirt_nics_facts:
+    - name: VM Facts
+      ovirt_vms_facts:
         auth: "{{ ovirt_auth }}"
-        vm: "{{ vm_name }}"
+        pattern: name="{{ vm_name }}"
+      until: ovirt_vms.display.address is not defined
 
     - name: NICs Info
       debug:
