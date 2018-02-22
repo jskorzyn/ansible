@@ -30,7 +30,7 @@
         state: present
         wait: yes
         type: server
-        pool_interval: 60
+        poll_interval: 60
       register: newvm
 
     - name: VM info
