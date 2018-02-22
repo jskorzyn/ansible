@@ -12,17 +12,20 @@
 
   tasks:
     - name: Create VM
-      vmware_guest:
-        hostname: "{{ vcenter_hostname }}"
-        username: "{{ vcenter_username }}"
-        password: "{{ vcenter_password }}"
+      ovirt_vms:
+        auth:
+          username: "{{ rhv_username }}"
+          password: "{{ rhv_password }}"
+          url: "{{ rhv_hostname }}"
+          insecure: yes
         name: "{{ vm_name }}"
-        template: "{{ vcenter_template }}"
-        datacenter: "{{ vcenter_datacenter }}"
+        operating_system: rhel_7x64
+        template: "{{ rhv_template }}"
+#        datacenter: "{{ vcenter_datacenter }}"
 #        folder: "{{ vcenter_folder }}"
         state: present
-        wait_for_ip_address: yes
-        validate_certs: no
+        wait: yes
+        type: server
       register: newvm
 
     - name: VM info
