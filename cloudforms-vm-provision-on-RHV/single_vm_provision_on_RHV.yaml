@@ -28,7 +28,7 @@
 #        datacenter: "{{ vcenter_datacenter }}"
 #        folder: "{{ vcenter_folder }}"
         state: running
-        wait: yes
+        wait: true
         type: server
         poll_interval: 20
       register: vm
