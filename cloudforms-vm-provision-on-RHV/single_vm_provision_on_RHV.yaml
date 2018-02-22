@@ -41,6 +41,14 @@
       debug:
         msg: "{{ vm }}"
 
+    - name: NICs data
+      ovirt_nics_facts:
+        vm: "{{ vm_name }}"
+
+    - name: NICs Info
+      debug:
+        var: ovirt_nics
+
 #    - name: VM info
 #      debug:
 #        msg: "{{ newvm.instance.ipv4 }} {{ vm_name }}"
