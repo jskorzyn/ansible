@@ -45,7 +45,7 @@
 
     - name: VM hw_name - info
       debug:
-        msg: "{{ newvm.instance.hw_name }}"
+        msg: "{{ newvm.vm.name }}"
 
 #    - name: Wait for SSH to come up
 #      wait_for:
@@ -60,7 +60,7 @@
       set_fact:
         provider_url: "{{ manageiq.api_url }}/api/providers/{{ provider_id }}"
 
-    - name: Refresh VMware provider in CloudForms
+    - name: Refresh RHV provider in CloudForms
       uri:
         url: "{{ provider_url }}"
         method: POST
@@ -95,7 +95,7 @@
 
     - name: NewVM Registered data
       debug:
-        msg: "{{newvm.instance}}"
+        msg: "{{newvm.vm}}"
 
     - name: Lookup instances href
       uri:
