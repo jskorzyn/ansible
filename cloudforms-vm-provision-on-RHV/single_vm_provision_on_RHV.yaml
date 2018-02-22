@@ -27,10 +27,10 @@
         template: "{{ rhv_template }}"
 #        datacenter: "{{ vcenter_datacenter }}"
 #        folder: "{{ vcenter_folder }}"
-        state: present
+        state: running
         wait: yes
         type: server
-        poll_interval: 60
+        poll_interval: 20
       register: vm
 
 #    - name: VM info
@@ -43,6 +43,7 @@
 
     - name: NICs data
       ovirt_nics_facts:
+        auth: "{{ ovirt_auth }}"
         vm: "{{ vm_name }}"
 
     - name: NICs Info
