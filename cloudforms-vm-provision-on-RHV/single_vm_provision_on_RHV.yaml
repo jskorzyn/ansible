@@ -38,9 +38,13 @@
 #      debug:
 #        msg: "{{ newvm }}"
 
-    - name: VM info 2
+    - name: VM info 1
       debug:
         msg: "{{ newvm.vm.status }}"
+
+    - name: VM info 2
+      debug:
+        msg: "{{ newvm }}"
 
 #    - name: VM Facts
 #      ovirt_vms_facts:
