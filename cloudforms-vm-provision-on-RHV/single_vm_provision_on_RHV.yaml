@@ -26,17 +26,10 @@
         operating_system: rhel_7x64
         template: "{{ rhv_template }}"
 #        datacenter: "{{ vcenter_datacenter }}"
-#        folder: "{{ vcenter_folder }}"
         state: present
-#        wait: true
         type: server
-#        poll_interval: 20
       register: newvm
       until: newvm.vm.status == "up"
-
-#    - name: VM info
-#      debug:
-#        msg: "{{ newvm }}"
 
     - name: VM info 1
       debug:
@@ -46,19 +39,9 @@
       debug:
         msg: "{{ newvm }}"
 
-#    - name: VM Facts
-#      ovirt_vms_facts:
-#        auth: "{{ ovirt_auth }}"
-#        pattern: name="{{ vm_name }}"
-#      until: ovirt_vms.display.address is not defined
-
-#    - name: NICs Info
-#      debug:
-#        var: ovirt_nics
-
-#    - name: VM info
-#      debug:
-#        msg: "{{ newvm.instance.ipv4 }} {{ vm_name }}"
+    - name: VM info
+      debug:
+        msg: "{{ newvm.vm.display.address }} {{ vm_name }}"
 
     - name: VM hw_name - info
       debug:
