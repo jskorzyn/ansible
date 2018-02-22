@@ -32,7 +32,7 @@
         type: server
 #        poll_interval: 20
       register: vm
-      until: vm.display.address is not defined
+#      until: vm.display.address is not defined
 
 #    - name: VM info
 #      debug:
