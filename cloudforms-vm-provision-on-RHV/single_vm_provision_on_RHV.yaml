@@ -148,7 +148,7 @@
       when: output.json.results[0].success == false
 
 - name: Vm configuration
-  hosts: "{{ newvm.vm.display.address }}"
+  hosts: "{{ hostvars['localhost']['newvm.vm.display.address'] }}"
 
   tasks:
     - name: Install httpd
