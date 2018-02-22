@@ -25,7 +25,6 @@
         cluster: MicroCluster
         operating_system: rhel_7x64
         template: "{{ rhv_template }}"
-#        datacenter: "{{ vcenter_datacenter }}"
         state: present
         type: server
       register: newvm
@@ -147,3 +146,12 @@
     - name: Check if the VM was successfully attached to service
       fail: msg="{{output.json.results[0].message}}"
       when: output.json.results[0].success == false
+
+- name: Vm configuration
+  hosts: "{{ newvm.vm.display.address }}"
+
+  tasks:
+    - name: Install httpd
+      yum:
+        name: httpd
+        state: present
