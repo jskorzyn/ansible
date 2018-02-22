@@ -37,6 +37,10 @@
       debug:
         msg: "{{ newvm }}"
 
+    - name: VM info 2
+      debug:
+        msg: "{{ vm }}"
+
 #    - name: VM info
 #      debug:
 #        msg: "{{ newvm.instance.ipv4 }} {{ vm_name }}"
