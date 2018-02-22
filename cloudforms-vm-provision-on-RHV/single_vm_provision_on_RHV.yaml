@@ -31,11 +31,11 @@
         wait: yes
         type: server
         poll_interval: 60
-      register: newvm
+      register: vm
 
-    - name: VM info
-      debug:
-        msg: "{{ newvm }}"
+#    - name: VM info
+#      debug:
+#        msg: "{{ newvm }}"
 
     - name: VM info 2
       debug:
