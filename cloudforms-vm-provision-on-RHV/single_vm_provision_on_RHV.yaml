@@ -32,7 +32,7 @@
         type: server
 #        poll_interval: 20
       register: newvm
-      until: newvm.vm.status == "down"
+      until: newvm.vm.status == "up"
 
 #    - name: VM info
 #      debug:
