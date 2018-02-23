@@ -38,7 +38,7 @@
 
     - name: display NICs facts
       debug:
-        var: ovirt_nics[0].reported_devices[1]
+        var: ovirt_nics[0].reported_devices[0].ips[0].address
 
     - name: VM info 1
       debug:
@@ -50,7 +50,7 @@
 
     - name: VM info
       debug:
-        msg: "{{ ovirt_nics.reported_devices.ips.address }} {{ vm_name }}"
+        msg: "{{ ovirt_nics[0].reported_devices[0].ips[0].address }} {{ vm_name }}"
 
     - name: VM hw_name - info
       debug:
@@ -58,7 +58,7 @@
 
     - name: VM IP Address
       set_fact:
-        newvm_ip: "{{ newvm.vm.display.address }}"
+        newvm_ip: "{{ ovirt_nics[0].reported_devices[0].ips[0].address }}"
 
     - debug: var=newvm_ip
 
