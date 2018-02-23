@@ -44,10 +44,6 @@
       debug:
         msg: "{{ newvm.vm.status }}"
 
-    - name: VM info 2
-      debug:
-        msg: "{{ newvm }}"
-
     - name: VM info
       debug:
         msg: "{{ ovirt_nics[0].reported_devices[0].ips[0].address }} {{ vm_name }}"
@@ -166,9 +162,11 @@
     - name: Create in Mem inventory
       add_host:
         name: "{{ newvm_ip }}"
+        goups: temp_web
 
 - name: Vm configuration
-  hosts: "{{ hostvars['localhost']['newvm_ip'] }}"
+  hosts: temp_web
+#  hosts: "{{ hostvars['localhost']['newvm_ip'] }}"
 
   tasks:
     - name: Install httpd
