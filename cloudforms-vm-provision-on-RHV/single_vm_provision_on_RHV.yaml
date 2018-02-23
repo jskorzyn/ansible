@@ -165,8 +165,7 @@
         goups: temp_web
 
 - name: Vm configuration
-  hosts: temp_web
-#  hosts: "{{ hostvars['localhost']['newvm_ip'] }}"
+  hosts: "{{ hostvars['localhost']['temp_web'] }}"
 
   tasks:
     - name: Install httpd
