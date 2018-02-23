@@ -32,11 +32,12 @@
 
     - name: Chck Ovirt_vms_facts
       ovirt_vms_facts:
-      pattern: name="{{ vm_name }}"
+        auth: "{{ ovirt_auth }}"
+        pattern: name="{{ vm_name }}"
 
     - name: display facts
       debug:
-      var: ovirt_vms
+        var: ovirt_vms
 
     - name: VM info 1
       debug:
