@@ -148,7 +148,7 @@
   hosts: "{{ hostvars['localhost']['newvm_ip'] }}"
 
   tasks:
-    - name: Install httpd
+    - name: Install httpd and mariadb
       yum:
         name: "{{item}}"
         state: latest
