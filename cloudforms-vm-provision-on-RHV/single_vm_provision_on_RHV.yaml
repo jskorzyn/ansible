@@ -34,6 +34,7 @@
       ovirt_nics_facts:
         auth: "{{ ovirt_auth }}"
         vm: "{{ vm_name }}"
+        name: eth0
 
     - name: display NICs facts
       debug:
