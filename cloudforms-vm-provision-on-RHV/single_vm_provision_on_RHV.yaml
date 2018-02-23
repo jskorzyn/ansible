@@ -49,7 +49,7 @@
 
     - name: VM info
       debug:
-        msg: "{{ newvm.vm.display.address }} {{ vm_name }}"
+        msg: "{{ ovirt_nics.reported_devices.ips.address }} {{ vm_name }}"
 
     - name: VM hw_name - info
       debug:
