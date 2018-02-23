@@ -153,6 +153,10 @@
       fail: msg="{{output.json.results[0].message}}"
       when: output.json.results[0].success == false
 
+    - name: Create in Mem inventory
+      add_host:
+        name: "{{ newvm_ip }}"
+
 - name: Vm configuration
   hosts: "{{ hostvars['localhost']['newvm_ip'] }}"
 
