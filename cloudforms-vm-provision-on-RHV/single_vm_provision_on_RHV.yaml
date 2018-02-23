@@ -30,6 +30,14 @@
       register: newvm
       until: newvm.vm.status == "up"
 
+    - name: Chck Ovirt_vms_facts
+      ovirt_vms_facts:
+      pattern: name="{{ vm_name }}"
+
+    - name: display facts
+      debug:
+      var: ovirt_vms
+
     - name: VM info 1
       debug:
         msg: "{{ newvm.vm.status }}"
