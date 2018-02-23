@@ -33,7 +33,7 @@
     - name: Chck Ovirt_nics_facts
       ovirt_nics_facts:
         auth: "{{ ovirt_auth }}"
-        name: "{{ vm_name }}"
+        vm: "{{ vm_name }}"
 
     - name: display NICs facts
       debug:
