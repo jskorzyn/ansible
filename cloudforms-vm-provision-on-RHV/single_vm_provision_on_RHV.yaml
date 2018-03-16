@@ -35,7 +35,7 @@
         auth: "{{ ovirt_auth }}"
         vm: "{{ vm_name }}"
         name: nic1
-      until: ovirt_nics[0].reported_devices[0].ips[0].address is defined
+      until: ovirt_nics[0].reported_devices[0].ips[0].address is not defined
 
     - name: display NICs facts
       debug:
