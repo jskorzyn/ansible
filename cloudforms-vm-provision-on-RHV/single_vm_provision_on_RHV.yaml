@@ -35,7 +35,7 @@
         auth: "{{ ovirt_auth }}"
         vm: "{{ vm_name }}"
         name: nic1
-#      until: ovirt_nics[0].reported_devices[0].ips[0].address is not defined
+#      until: ovirt_nics[0].reported_devices[0].ips[0].address is defined
 
     - name: display NICs facts
       debug:
@@ -167,11 +167,11 @@
 
     - name: Create in Mem inventory
       add_host:
-        name: "{{ newvm_ip }}"
-        goups: temp_web
+        hostname: "{{ newvm_ip }}"
+        ansible_host: web-host
 
 - name: Vm configuration
-  hosts: "{{ hostvars['localhost']['temp_web'] }}"
+  hosts: "{{ hostvars['localhost']['web-host'] }}"
 
   tasks:
     - name: Install httpd
