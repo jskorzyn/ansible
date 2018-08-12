@@ -5,11 +5,12 @@
   connection: local
 
   vars:
-    rhv_username: admin@internal
-    rhv_password: password
-    rhv_url: https://rhvm.local.com/ovirt-engine/api
+    rhv_username: rhvadmin@ipa.lab.com
+    rhv_password: Redhat01!
+    rhv_url: https://rhvm.lab.com/ovirt-engine/api
     rhv_cpu: 2
     rhv_memory: 4096
+    rhv_vm_name: JSk-Test01-cloudforms
 
   tasks:
      - name: RHV Auth
@@ -23,8 +24,8 @@
 
      - name: VM Create
        ovirt_vms:
-        name: rhel7-test01
-        template: rhel7-init
+        name: "{{ rhv_vm_name }}"
+        template: rhel7
         cluster: Default
         cpu_cores: "{{ rhv_cpu }}"
         memory: "{{ rhv_memory }}"

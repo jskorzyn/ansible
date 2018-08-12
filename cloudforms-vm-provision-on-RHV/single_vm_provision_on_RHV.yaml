@@ -1,0 +1,180 @@
+---
+- name: Create new VMware VM
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  vars:
+    wait_for_ssh: False
+    provider_id: "{{ provider_id }}"
+    max_retries: 9
+    retry_interval: 20
+
+  tasks:
+    - name: Obtain SSO token
+      ovirt_auth:
+        username: "{{ rhv_username }}"
+        password: "{{ rhv_password }}"
+        url: "{{ rhv_hostname }}"
+        insecure: yes
+
+    - name: Create VM
+      ovirt_vms:
+        auth: "{{ ovirt_auth }}"
+        name: "{{ vm_name }}"
+        cluster: MicroCluster
+        operating_system: rhel_7x64
+        template: "{{ rhv_template }}"
+        state: present
+        type: server
+      register: newvm
+      until: newvm.vm.status == "up"
+
+    - name: Chck Ovirt_nics_facts
+      ovirt_nics_facts:
+        auth: "{{ ovirt_auth }}"
+        vm: "{{ vm_name }}"
+        name: nic1
+      until: ovirt_nics[0].reported_devices[0].ips[0] is present
+
+    - name: display NICs facts
+      debug:
+        var: ovirt_nics
+
+
+    - name: display NICs facts
+      debug:
+        var: ovirt_nics[0].reported_devices[0].ips[0].address
+
+    - name: VM info 1
+      debug:
+        msg: "{{ newvm.vm.status }}"
+
+    - name: VM info
+      debug:
+        msg: "{{ ovirt_nics[0].reported_devices[0].ips[0].address }} {{ vm_name }}"
+
+    - name: VM hw_name - info
+      debug:
+        msg: "{{ newvm.vm.name }}"
+
+    - name: VM IP Address
+      set_fact:
+        newvm_ip: "{{ ovirt_nics[0].reported_devices[0].ips[0].address }}"
+
+    - debug: var=newvm_ip
+
+#    - name: Wait for SSH to come up
+#      wait_for:
+#        host: "{{ newvm.instance.ipv4 }}"
+#        port: 22
+#        delay: 60
+#        timeout: 320
+#        state: started
+#      with_items: "{{ newvm }}"
+
+    - name: Set the Provider URL
+      set_fact:
+        provider_url: "{{ manageiq.api_url }}/api/providers/{{ provider_id }}"
+
+    - name: Refresh RHV provider in CloudForms
+      uri:
+        url: "{{ provider_url }}"
+        method: POST
+        body:
+          action: refresh
+        body_format: json
+        validate_certs: False
+        headers:
+          X-Auth-Token: "{{ manageiq.api_token }}"
+          Content-Type: "application/json"
+        status_code: 200
+      register: output
+
+    - name: Set the task href
+      set_fact:
+        task_url: "{{ output.json.task_href}}"
+
+    - name: Wait for the provider refresh to end
+      uri:
+        url: "{{ task_url }}"
+        method: GET
+        validate_certs: False
+        headers:
+          X-Auth-Token: "{{ manageiq.api_token }}"
+          Content-Type: "application/json"
+        status_code: 200
+      register: task_result
+      until: task_result.json.state == 'Finished' or task_result.json.status == 'Error'
+      failed_when: task_result.json.status == 'Error'
+      retries: "{{max_retries}}"
+      delay: "{{retry_interval}}"
+
+    - name: NewVM Registered data
+      debug:
+        msg: "{{newvm.vm}}"
+
+    - name: Lookup instances href
+      uri:
+        url: "{{ manageiq.api_url }}/api/vms?filter[]=name={{ item }}&expand=resources"
+        method: GET
+        body:
+          action: refresh
+        body_format: json
+        validate_certs: False
+        headers:
+          X-Auth-Token: "{{ manageiq.api_token }}"
+          Content-Type: "application/json"
+        status_code: 200
+      register: output
+      with_items: "{{ vm_name }}"
+
+    - name: Set the Service URL
+      set_fact:
+        svc_url: "/api/{{ manageiq.service }}"
+
+    - name: Initialize an empty list for vms
+      set_fact:
+        vms: []
+
+    - name: Append resource href to vms list
+      set_fact:
+        vms: "{{ vms }} + [ { 'href': svc_url, 'resource': { 'href': '/api/vms/{{ item.json.resources[0].id }}' } } ]"
+      with_items: "{{ output.results }}"
+
+    - debug: var=vms
+
+    - name: Register vms with the service
+      uri:
+        url: "{{ manageiq.api_url }}/api/services"
+        method: POST
+        body_format: json
+        body:
+          action: add_resource
+          resources: "{{ vms }}"
+        validate_certs: False
+        headers:
+          X-Auth-Token: "{{ manageiq.api_token }}"
+          Content-Type: "application/json"
+        status_code: 200
+      register: output
+
+    - debug: var=output.json.results[0].success
+
+    - name: Check if the VM was successfully attached to service
+      fail: msg="{{output.json.results[0].message}}"
+      when: output.json.results[0].success == false
+
+    - name: Create in Mem inventory
+      add_host:
+        hostname: "{{ newvm_ip }}"
+        ansible_host: web-host
+
+- name: Vm configuration
+  hosts: "{{ hostvars['localhost']['web-host'] }}"
+
+  tasks:
+    - name: Install httpd
+      yum:
+        name: httpd
+        state: present

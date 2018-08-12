@@ -1,0 +1,55 @@
+---
+- name: Restore VM from snap
+  hosts: all
+  connection: local
+  gather_facts: no
+
+
+  vars:
+    username: admin@internal
+    url: https://rhvm.local.com/ovirt-engine/api
+    password: password
+    datacenter: Local
+    cluster: Default
+    template: rhel7-template
+    vm: jsk-test01
+
+  tasks:
+  - name: Obtain SSO token
+    ovirt_auth:
+      url: "{{ url }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      insecure: yes
+
+  - name: Stop VM
+    ovirt_vms:
+      auth: "{{ ovirt_auth }}"
+      name: "{{ vm }}"
+      state: stopped
+      wait: yes
+
+  - name: Gather facts
+    ovirt_snapshots_facts:
+      vm: "{{ vm }}"
+      description: Initial*
+
+  - name: Show facts
+    setup:
+      filter: snap*
+
+  - name: Debug
+    debug:
+      var: ovirt_snapshots
+
+#  - name: Debug
+#    debug:
+#      var: ovirt_snapshots.id
+
+#  - name: Restore from snap
+#    ovirt_snapshots:
+#      auth: "{{ ovirt_auth }}"
+#      vm_name: "{{ vm }}"
+#      state: restore
+#      snapshot_id: "{{ ovirt_snapshots.id }}"
+#      wait: yes

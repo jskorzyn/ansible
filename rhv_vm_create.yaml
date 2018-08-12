@@ -1,0 +1,70 @@
+---
+- name: Provision VM from template
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  vars:
+    username: admin@internal
+    url: https://rhvm.local.com/ovirt-engine/api
+    password: password
+    datacenter: Local
+    cluster: Default
+    template: rhel7-template
+    vm: jsk-test01
+    snap_id: TEST-Snap-user01
+
+  tasks:
+  - name: Obtain SSO token
+    ovirt_auth:
+      url: "{{ url }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      insecure: yes
+
+  - name: Create and run VM from template
+    ovirt_vms:
+      auth: "{{ ovirt_auth }}"
+      name: "{{ vm }}"
+      template: "{{ template }}"
+      cluster: "{{ cluster }}"
+      memory: 1GiB
+      high_availability: true
+      state: stopped
+      wait: yes
+
+  - name: Create initial snap
+    ovirt_snapshots:
+      auth: "{{ ovirt_auth }}"
+      vm_name: "{{ vm }}"
+      wait: yes
+      state: present
+      description: Initial_snap
+    register: snapshot
+
+  - name: snap ID debug
+    debug:
+      var: snapshot
+
+  - name: set fact
+    set_fact:
+      snap_id: "{{ snapshot.id }}"
+      cacheable: true
+
+#  - name: save snap id
+#    copy:
+#      content: "{{ snapshot.id }}"
+#      dest: /var/lib/awx/{{ vm }}.txt
+#    delegate_to: localhost
+
+  - name: Start vm
+    ovirt_vms:
+      auth: "{{ ovirt_auth }}"
+      name: "{{ vm }}"
+      state: running
+      wait: yes
+
+  - name: Revoke the SSO token
+    ovirt_auth:
+      state: absent
+      ovirt_auth: "{{ ovirt_auth }}"
