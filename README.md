@@ -4,7 +4,7 @@ My ansible Playbooks
 
 ## CloudForms Sections
 
-The goal of thi section i s to provide fully working automation with out (or with minimal) usage of Ruby.
+The goal of this section is to provide fully working automation with out (or with minimal) usage of Ruby.
 
 * cloudforms-vm-provision-on-RHV: CloudForms VM Provision on RHV using playbook only
 
