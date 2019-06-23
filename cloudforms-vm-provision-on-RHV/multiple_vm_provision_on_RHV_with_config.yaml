@@ -28,8 +28,11 @@
         state: present
         type: server
       register: newvm
-      until: newvm.vm.status == "up"
+ #     until: newvm.vm.status == "up"
       
+   - name: debug newvm
+     debug:
+       var: newvm
 
     - name: Chck Ovirt_nics_facts
       ovirt_nic_facts:
