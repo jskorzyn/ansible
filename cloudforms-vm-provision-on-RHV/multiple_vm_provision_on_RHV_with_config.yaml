@@ -19,7 +19,7 @@
         insecure: yes
 
     - name: Create VM web servers
-      ovirt_vms:
+      ovirt_vm:
         auth: "{{ ovirt_auth }}"
         name: "{{ vm_name }}"
         cluster: MicroCluster
