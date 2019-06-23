@@ -32,7 +32,7 @@
       
 
     - name: Chck Ovirt_nics_facts
-      ovirt_nics_facts:
+      ovirt_nic_facts:
         auth: "{{ ovirt_auth }}"
         vm: "{{ vm_name }}"
         name: nic1
