@@ -1,5 +1,5 @@
 ---
-- name: Create new VMware VM
+- name: Create new RHV VM
   hosts: localhost
   gather_facts: false
   connection: local
