@@ -11,16 +11,16 @@
     retry_interval: 20
 
   tasks:
-    - name: Obtain SSO token
-      ovirt_auth:
-        username: "{{ rhv_username }}"
-        password: "{{ rhv_password }}"
-        url: "{{ rhv_hostname }}"
-        insecure: yes
+#    - name: Obtain SSO token
+#      ovirt_auth:
+#        username: "{{ rhv_username }}"
+#        password: "{{ rhv_password }}"
+#        url: "{{ rhv_hostname }}"
+#        insecure: yes
 
     - name: Create VM web servers
       ovirt_vm:
-        auth: "{{ ovirt_auth }}"
+#        auth: "{{ ovirt_auth }}"
         name: "{{ vm_name }}"
         cluster: MicroCluster
         operating_system: rhel_7x64
@@ -33,7 +33,7 @@
 
     - name: Chck Ovirt_nics_facts
       ovirt_nic_facts:
-        auth: "{{ ovirt_auth }}"
+ #       auth: "{{ ovirt_auth }}"
         vm: "{{ vm_name }}"
         name: nic1
 
