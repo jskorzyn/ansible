@@ -62,9 +62,9 @@
         vm: "{{ vm_name }}"
         name: nic1
 
-  - name: display NICs facts
-    debug:
-      var: ovirt_nics
+    - name: display NICs facts
+      debug:
+        var: ovirt_nics
 
 
 #    - name: display NICs facts
