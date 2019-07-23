@@ -25,7 +25,7 @@
         cluster: "{{ cluster_name }}"
         operating_system: rhel_7x64
         template: "{{ rhv_template }}"
-        state: present
+        state: running
         type: server
       register: newvm
  #     until: newvm.vm.status == "up"
