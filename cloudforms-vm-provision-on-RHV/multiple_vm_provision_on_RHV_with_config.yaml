@@ -193,7 +193,7 @@
     - name: Create in Mem inventory
       add_host:
         name: "{{ newvm_ip }}"
-        goups: temp_web
+        groups: temp_web
 
 - name: Vm configuration
   hosts: "{{ hostvars['localhost']['temp_web'] }}"
