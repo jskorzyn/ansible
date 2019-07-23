@@ -30,20 +30,20 @@
       register: newvm
 #      wait_for: newvm.vm.status == "up"
     
-    - name: Wait for VMs IP
-      ovirt_vm_facts:
-        pattern: "{{ vm_name }}"
+#    - name: Wait for VMs IP
+#      ovirt_vm_facts:
+#        pattern: "{{ vm_name }}"
 #        pattern: "name={{ item.name }}"
-        fetch_nested: true
-        nested_attributes: ips
+#        fetch_nested: true
+#        nested_attributes: ips
 #      with_items:
 #        - "{{ create_vms }}"
-      until: "ip_cond"
-      retries: 10
+#      until: "ip_cond"
+#      retries: 10
 #      retries: "{{ vm_infra_wait_for_ip_retries }}"
-      delay: 30
+#      delay: 30
 #      delay: "{{ vm_infra_wait_for_ip_delay }}"
-      when: "(vm_name.state is undefined and vm_name.profile.state is defined and vm_name.profile.state != 'stopped') and (vm_name.state is defined and vm_name.state != 'stopped') | default('present') != 'stopped'"
+#      when: "(vm_name.state is undefined and vm_name.profile.state is defined and vm_name.profile.state != 'stopped') and (vm_name.state is defined and vm_name.state != 'stopped') | default('present') != 'stopped'"
 #      when: "(item.state is undefined and item.profile.state is defined and item.profile.state != 'stopped') and (item.state is defined and item.state != 'stopped') | default('present') != 'stopped'"
 
 
