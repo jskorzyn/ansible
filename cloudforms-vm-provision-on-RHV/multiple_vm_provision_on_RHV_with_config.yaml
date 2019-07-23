@@ -28,7 +28,7 @@
         state: running
         type: server
       register: newvm
-      wait_for: newvm.vm.status == "up"
+#      wait_for: newvm.vm.status == "up"
       
     - name: debug newvm
       debug:
