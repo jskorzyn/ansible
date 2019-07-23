@@ -22,7 +22,7 @@
       ovirt_vm:
 #        auth: "{{ ovirt_auth }}"
         name: "{{ vm_name }}"
-        cluster: MicroCluster
+        cluster: "{{ cluster_name }}"
         operating_system: rhel_7x64
         template: "{{ rhv_template }}"
         state: present
