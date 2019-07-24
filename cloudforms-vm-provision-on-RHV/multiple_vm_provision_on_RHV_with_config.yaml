@@ -190,16 +190,16 @@
       fail: msg="{{output.json.results[0].message}}"
       when: output.json.results[0].success == false
 
-    - name: Create in Mem inventory
-      add_host:
-        name: "{{ newvm_ip }}"
-        groups: temp_web
+#    - name: Create in Mem inventory
+#      add_host:
+#        name: "{{ newvm_ip }}"
+#        groups: temp_web
 
-- name: Vm configuration
-  hosts: "{{ hostvars['localhost']['temp_web'] }}"
-
-  tasks:
-    - name: Install httpd
-      yum:
-        name: httpd
-        state: present
+#- name: Vm configuration
+#  hosts: "{{ hostvars['localhost']['temp_web'] }}"
+#
+#  tasks:
+#    - name: Install httpd
+#      yum:
+#        name: httpd
+#        state: present
