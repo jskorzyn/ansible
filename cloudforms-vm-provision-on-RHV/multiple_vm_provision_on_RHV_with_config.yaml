@@ -203,3 +203,14 @@
 #      yum:
 #        name: httpd
 #        state: present
+
+   - name: Get service details
+     uri:
+       url: "{{ service_url }}"
+       method: DELETE
+       validate_certs: no
+       headers:
+         X-Auth-Token: "{{ manageiq.api_token }}"
+         Content-Type: "application/json"
+       body_format: json
+       return_content: yes
