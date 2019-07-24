@@ -204,9 +204,9 @@
 #        name: httpd
 #        state: present
 
-    - name: Get service details
+    - name: Revoke Token
       uri:
-        url: "{{ service_url }}"
+        url: "{{ manageiq.api_url }}/api/auth"
         method: DELETE
         validate_certs: no
         headers:
