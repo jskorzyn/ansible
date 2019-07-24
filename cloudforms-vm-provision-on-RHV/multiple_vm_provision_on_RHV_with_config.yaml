@@ -203,14 +203,3 @@
 #      yum:
 #        name: httpd
 #        state: present
-
-    - name: Revoke Token
-      uri:
-        url: "{{ manageiq.api_url }}/api/auth"
-        method: DELETE
-        validate_certs: no
-        headers:
-          X-Auth-Token: "{{ manageiq.api_token }}"
-          Content-Type: "application/json"
-        body_format: json
-        return_content: yes
