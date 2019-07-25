@@ -23,7 +23,7 @@
 #        insecure: yes
 
     - name: Create VM web servers
-      ovirt_vms:
+      ovirt_vm:
 #        auth: "{{ ovirt_auth }}"
         name: "{{ item }}"
         cluster: "{{ cluster_name }}"
@@ -62,7 +62,7 @@
         var: newvm
 
  #   - name: Chck Ovirt_nics_facts
- #     ovirt_nics_facts:
+ #     ovirt_nic_facts:
  #       auth: "{{ ovirt_auth }}"
  #       vm: "{{ vm_name }}"
  #       name: nic1
