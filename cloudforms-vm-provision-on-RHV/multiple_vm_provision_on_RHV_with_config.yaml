@@ -10,9 +10,9 @@
     max_retries: 9
     retry_interval: 20
     vm_name:
-      - vm1
-      - vm2
-      - vm3
+      - vm10
+      - vm20
+      - vm30
 
   tasks:
 #    - name: Obtain SSO token
@@ -41,12 +41,12 @@
       register: 'job_result'
       until: 'job_result.finished'
       retries: 100
-      delay: 45
+      delay: 5
       with_items: '{{ newvm.results }}'
       
     - name: Wait for VM to be up
       pause:
-        seconds: 30
+        seconds: 10
 #      wait_for: newvm.vm.status == "up"
     
 #    - name: Wait for VMs IP
