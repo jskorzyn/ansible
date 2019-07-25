@@ -9,6 +9,10 @@
     provider_id: "{{ provider_id }}"
     max_retries: 9
     retry_interval: 20
+    vm_name:
+      - vm1
+      - vm2
+      - vm3
 
   tasks:
 #    - name: Obtain SSO token
@@ -21,13 +25,14 @@
     - name: Create VM web servers
       ovirt_vms:
 #        auth: "{{ ovirt_auth }}"
-        name: "{{ vm_name }}"
+        name: "{{ item }}"
         cluster: "{{ cluster_name }}"
         operating_system: rhel_7x64
         template: "{{ rhv_template }}"
         state: running
         type: server
       register: newvm
+      with_items: "{{ vm_name }}"
       
       
     - name: Wait for VM to be up
@@ -56,39 +61,39 @@
       debug:
         var: newvm
 
-    - name: Chck Ovirt_nics_facts
-      ovirt_nics_facts:
+ #   - name: Chck Ovirt_nics_facts
+ #     ovirt_nics_facts:
  #       auth: "{{ ovirt_auth }}"
-        vm: "{{ vm_name }}"
-        name: nic1
-
-    - name: display NICs facts
-      debug:
-        var: ovirt_nics
+ #       vm: "{{ vm_name }}"
+ #       name: nic1
+#
+#    - name: display NICs facts
+#      debug:
+#        var: ovirt_nics
 
 
 #    - name: display NICs facts
 #      debug:
 #        var: ovirt_nics[0].reported_devices[0].ips[0].address
 
-    - name: VM info 1
-      debug:
-        msg: "{{ newvm.vm.status }}"
+#    - name: VM info 1
+#      debug:
+#        msg: "{{ newvm.vm.status }}"
 
-    - name: VM info
-      debug:
-        msg: "{{ ovirt_nics[0].reported_devices[0].ips[0].address }} {{ vm_name }}"
+#    - name: VM info
+#      debug:
+#        msg: "{{ ovirt_nics[0].reported_devices[0].ips[0].address }} {{ vm_name }}"
 
-    - name: VM hw_name - info
-      debug:
-        msg: "{{ newvm.vm.name }}"
+ #   - name: VM hw_name - info
+ #     debug:
+ #       msg: "{{ newvm.vm.name }}"
 
-    - name: VM IP Address
-      set_fact:
-        newvm_ip: "{{ ovirt_nics[0].reported_devices[0].ips[0].address }}"
+ #   - name: VM IP Address
+ #     set_fact:
+ #       newvm_ip: "{{ ovirt_nics[0].reported_devices[0].ips[0].address }}"
 
-    - debug: var=newvm_ip
-
+#    - debug: var=newvm_ip
+#
 #    - name: Wait for SSH to come up
 #      wait_for:
 #        host: "{{ newvm.instance.ipv4 }}"
@@ -135,9 +140,9 @@
       retries: "{{max_retries}}"
       delay: "{{retry_interval}}"
 
-    - name: NewVM Registered data
-      debug:
-        msg: "{{newvm.vm}}"
+ #   - name: NewVM Registered data
+ #     debug:
+ #       msg: "{{newvm.vm}}"
 
     - name: Lookup instances href
       uri:
