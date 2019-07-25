@@ -32,12 +32,21 @@
         state: running
         type: server
       register: newvm
+      async: '50'
+      poll: '0'
       with_items: "{{ vm_name }}"
       
+    - name: 'Check status'
+      async_status: jid={{ item.ansible_job_id }}
+      register: 'job_result'
+      until: 'job_result.finished'
+      retries: 100
+      delay: 45
+      with_items: '{{ newvm.results }}'
       
     - name: Wait for VM to be up
       pause:
-        seconds: 40
+        seconds: 30
 #      wait_for: newvm.vm.status == "up"
     
 #    - name: Wait for VMs IP
