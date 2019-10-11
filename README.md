@@ -10,4 +10,4 @@ The goal of this section is to provide fully working automation with out (or wit
 
 * cloudforms-vm-provision-on-VMware: CloudForms VM Provision on RVMware using playbook only
 
-* 
+*  nowy wpis
