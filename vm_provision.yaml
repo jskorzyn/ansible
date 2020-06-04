@@ -6,7 +6,7 @@
 
   vars:
     rhv_username: rhvadmin@ipa.lab.com
-    rhv_password: Redhat01!
+    rhv_password: 
     rhv_url: https://rhvm.lab.com/ovirt-engine/api
     rhv_cpu: 2
     rhv_memory: 4096
